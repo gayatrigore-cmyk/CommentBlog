@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8">
+        <article class="card shadow-sm mb-4">
+            {% if post.image %}
+                <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}">
+            {% endif %}
+            <div class="card-body">
+                <h1 class="card-title">{{ post.title }}</h1>
+                <div class="mb-3">
+                    <span class="badge bg-primary">{{ post.category.name }}</span>
+                    <span class="text-muted ms-2">
+                        <i class="bi bi-person"></i> {{ post.author.username }} |
+                        <i class="bi bi-calendar"></i> {{ post.created_at|date:"F d, Y" }} |
+                        <i class="bi bi-clock"></i> Updated {{ post.updated_at|date:"F d, Y" }}
+                    </span>
+                </div>
+                <hr>
+                <div class="post-content">
+                    {{ post.content|linebreaks }}
+                </div>
+            </div>
+            {% if user == post.author %}
+                <div class="card-footer bg-transparent">
+                    <a href="{% url 'post_edit' post.slug %}" class="btn btn-sm btn-warning">
+                        <i class="bi bi-pencil"></i> Edit
+                    </a>
+                    <a href="{% url 'post_delete' post.slug %}" class="btn btn-sm btn-danger">
+                        <i class="bi bi-trash"></i> Delete
+                    </a>
+                </div>
+            {% endif %}
+        </article>
+
+        <div class="card shadow-sm">
+            <div class="card-header bg-dark text-white">
+                <h5 class="mb-0"><i class="bi bi-chat-dots"></i> Comments ({{ comments.count }})</h5>
+            </div>
+            <div class="card-body">
+                {% if user.is_authenticated %}
+                    <form method="post" class="mb-4">
+                        {% csrf_token %}
+                        {{ comment_form.as_p }}
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-send"></i> Post Comment
+                        </button>
+                    </form>
+                {% else %}
+                    <p class="alert alert-info">
+                        <a href="{% url 'login' %}">Login</a> to leave a comment.
+                    </p>
+                {% endif %}
+
+                <hr>
+
+                {% for comment in comments %}
+                    <div class="comment mb-3 p-3 bg-light rounded">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <strong><i class="bi bi-person-circle"></i> {{ comment.author.username }}</strong>
+                                <small class="text-muted ms-2">{{ comment.created_at|date:"M d, Y - g:i A" }}</small>
+                            </div>
+                            {% if user == comment.author %}
+                                <a href="{% url 'comment_delete' comment.pk %}" class="btn btn-sm btn-danger">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            {% endif %}
+                        </div>
+                        <p class="mt-2 mb-0">{{ comment.content|linebreaks }}</p>
+                    </div>
+                {% empty %}
+                    <p class="text-muted">No comments yet. Be the first to comment!</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card shadow-sm mb-3">
+            <div class="card-header bg-dark text-white">
+                <h6 class="mb-0">About Author</h6>
+            </div>
+            <div class="card-body">
+                <h6><i class="bi bi-person"></i> {{ post.author.username }}</h6>
+                <p class="text-muted mb-0">{{ post.author.posts.count }} post{{ post.author.posts.count|pluralize }}</p>
+            </div>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-header bg-dark text-white">
+                <h6 class="mb-0">More in {{ post.category.name }}</h6>
+            </div>
+            <div class="list-group list-group-flush">
+                {% for related_post in post.category.posts.all|slice:":5" %}
+                    {% if related_post != post %}
+                        <a href="{% url 'post_detail' related_post.slug %}" class="list-group-item list-group-item-action">
+                            {{ related_post.title }}
+                        </a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

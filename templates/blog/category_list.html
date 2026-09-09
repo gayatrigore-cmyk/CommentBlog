@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <h1><i class="bi bi-tags"></i> All Categories</h1>
+        <p class="lead text-muted">Browse posts by category</p>
+    </div>
+</div>
+
+<div class="row">
+    {% for category in categories %}
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="bi bi-tag"></i> {{ category.name }}
+                    </h5>
+                    <p class="card-text text-muted">
+                        {{ category.post_count }} post{{ category.post_count|pluralize }}
+                    </p>
+                    <a href="{% url 'category_posts' category.slug %}" class="btn btn-primary">
+                        View Posts <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">
+                <h5>No categories yet!</h5>
+                <p>Categories will appear here once they're created.</p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

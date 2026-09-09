@@ -1,0 +1,118 @@
+"Create a complete Django project for a fully functional Blog Website with a modern, attractive user interface and a full backend. After creating the project, also deploy it on Replit and give me a global public link to access the live website. The project must include all features listed below:
+
+🔹 PROJECT REQUIREMENTS
+
+Build the project using Django (latest version).
+
+Use Bootstrap 5 or TailwindCSS for a clean, responsive, modern UI.
+
+Include two roles:
+
+Admin – manage posts, categories, and users (use Django admin panel).
+
+User (Author) – register/login and perform CRUD operations on their posts.
+
+🔹 BACKEND FUNCTIONALITY (FULL Django Backend)
+
+Implement full CRUD operations for blog posts:
+
+Create
+
+Read
+
+Update
+
+Delete
+
+Implement a Category system:
+
+Add category
+
+Edit category
+
+Delete category
+
+Every post must belong to a category, and the category name must appear on each post.
+
+Add a filter-by-category feature to view only posts from selected categories.
+
+Configure proper Django Models:
+
+Category: name, slug
+
+Post: title, slug, content, image, author(FK), category(FK), created_at, updated_at
+
+🔹 PAGES THAT MUST BE CREATED
+
+Create all of these frontend pages with attractive UI:
+
+Home page (list all posts)
+
+Post detail page
+
+Create post page
+
+Edit post page
+
+List of categories
+
+Posts filtered by category
+
+Login page
+
+Registration page
+
+User dashboard
+
+Admin panel (default Django admin)
+
+🔹 TECHNICAL REQUIREMENTS
+
+Use slug-based URLs for posts and categories.
+
+Use Django authentication system:
+
+Login
+
+Logout
+
+Register
+
+Build a responsive navigation bar that automatically lists all categories.
+
+Provide full code for:
+
+models.py
+
+views.py
+
+urls.py
+
+forms.py (if used)
+
+templates (HTML files with Bootstrap/Tailwind)
+
+base.html layout
+
+settings.py configuration
+
+static + media setup
+
+Add some dummy test posts and categories.
+
+🔹 DEPLOYMENT REQUIREMENTS
+
+Configure the project to run correctly on Replit.
+
+Set up replit.nix or necessary Replit files.
+
+Use this command to run the Django server:
+
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver 0.0.0.0:8000
+
+
+Deploy the project.
+
+Provide a GLOBAL PUBLIC LIVE LINK after deployment so I can access the blog website online.
